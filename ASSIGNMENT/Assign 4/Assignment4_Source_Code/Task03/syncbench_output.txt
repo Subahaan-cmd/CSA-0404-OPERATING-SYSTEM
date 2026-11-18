@@ -1,0 +1,3 @@
+write, one fsync at the end        total     16.9 ms   per write    0.008 ms
+write + fsync after every write    total    232.7 ms   per write    0.116 ms
+write + fdatasync after every write total    254.5 ms   per write    0.127 ms

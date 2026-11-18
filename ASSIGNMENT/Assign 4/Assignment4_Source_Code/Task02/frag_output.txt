@@ -1,0 +1,4 @@
+policy      requests failed total frag. failures    failure % ext.frag % (end)
+first fit      10101          169            169         1.7%          87.5%
+best fit       10024            1              1         0.0%          52.0%
+worst fit      10972         1892           1892        17.2%          91.7%

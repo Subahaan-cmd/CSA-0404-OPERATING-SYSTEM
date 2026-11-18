@@ -1,0 +1,2 @@
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/vda       ext4  252G  8.0G   10G  45% /

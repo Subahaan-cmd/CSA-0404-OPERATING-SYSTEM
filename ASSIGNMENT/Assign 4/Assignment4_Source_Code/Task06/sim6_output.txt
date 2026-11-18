@@ -1,0 +1,7 @@
+HDD chunk read 38.8 ms, SSD chunk read 8.1 ms
+SSD cache size     hit ratio  avg start ms HDD load left 
+0% (0 videos, 0 GB) 0.000      38.8         1.000         
+2% (100 videos, 100 GB) 0.432      25.6         0.568         
+5% (250 videos, 250 GB) 0.554      21.8         0.446         
+10% (500 videos, 500 GB) 0.649      18.9         0.351         
+20% (1000 videos, 1000 GB) 0.749      15.8         0.251         

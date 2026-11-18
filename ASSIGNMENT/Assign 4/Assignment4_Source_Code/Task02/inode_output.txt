@@ -1,0 +1,5 @@
+pointers per block 1024
+max blocks 1074791436 max size bytes 4402345721856 GiB 4100.003952026367 TiB 4.003910109400749
+4GB file blocks 1048576
+4TB blocks 1073741824 bitvector bytes 134217728 MiB 128.0
+FAT entries 4TB 4-byte 4.0 GiB

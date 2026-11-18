@@ -1,0 +1,20 @@
+; 4 MB random reads emulating interleaved video streams (run on real hardware)
+[global]
+ioengine=libaio
+direct=1
+bs=4m
+rw=randread
+runtime=120
+time_based=1
+group_reporting=1
+size=8g
+
+[hdd-20-streams]
+filename=/mnt/hdd0/video.bin
+iodepth=20
+numjobs=1
+
+[nvme-20-streams]
+filename=/mnt/nvme0/video.bin
+iodepth=20
+numjobs=1

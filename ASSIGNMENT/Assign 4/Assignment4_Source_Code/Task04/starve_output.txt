@@ -1,0 +1,2 @@
+SSTF: request at 183 STILL WAITING after 5000 ms (5000 requests served, queue length 1)
+SCAN: request at 183 served after 3 ms (2 requests served first)
