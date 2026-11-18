@@ -1,0 +1,14 @@
+# Multi-stage build: compilers and caches stay in the builder stage
+FROM python:3.12-slim AS builder
+WORKDIR /build
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+FROM python:3.12-slim
+WORKDIR /app
+COPY --from=builder /install /usr/local
+COPY . .
+RUN useradd --create-home --shell /usr/sbin/nologin portal && chown -R portal:portal /app
+USER portal
+EXPOSE 8000
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]

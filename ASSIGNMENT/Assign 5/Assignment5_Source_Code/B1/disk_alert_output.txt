@@ -1,0 +1,2 @@
+ALERT: /dev/vda is 45% full (mounted on /)
+ok:    /dev/vda is 45% full (mounted on /)

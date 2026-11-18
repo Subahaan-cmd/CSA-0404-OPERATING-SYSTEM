@@ -1,0 +1,23 @@
+$ docker build -t result-portal .
+$ docker images result-portal            # record the SIZE column
+$ docker run -d --name portal -p 8000:8000 result-portal
+$ docker ps                              # expect: STATUS "Up ...", PORTS 0.0.0.0:8000->8000/tcp
+$ curl http://localhost:8000/health      # expect: {"status":"ok"}
+$ curl http://localhost:8000/result/2501001   # expect: {"cgpa":8.7,"name":"Asha"}
+$ docker exec portal whoami              # expect: portal   (not root)
+
+$ docker compose up -d
+$ docker compose ps                      # portal and db: running
+$ docker compose exec db psql -U portal -d results -c "CREATE TABLE t(x int); INSERT INTO t VALUES (1);"
+$ docker compose down                    # removes the containers, keeps the volume
+$ docker compose up -d
+$ docker compose exec db psql -U portal -d results -c "SELECT * FROM t;"   # row 1 is still there
+
+$ docker run -d --name limited --cpus 0.5 --memory 256m -p 8001:8000 result-portal
+$ docker stats --no-stream limited       # shows MEM USAGE / LIMIT = x MiB / 256 MiB
+# generate load (any of ab, hey, wrk) and watch the CPU column stay at about 50 percent:
+$ ab -n 20000 -c 50 http://localhost:8001/health &
+$ docker stats limited
+# memory test: ask for more than the limit and see the OOM kill
+$ docker run --name oomtest --memory 64m python:3.12-slim python -c "x = bytearray(200*1024*1024)"
+$ docker inspect --format "{{.State.OOMKilled}} {{.State.ExitCode}}" oomtest      # expect: true 137

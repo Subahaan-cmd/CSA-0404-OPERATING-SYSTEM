@@ -1,0 +1,24 @@
+services:
+  portal:
+    image: result-portal
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: postgresql://portal:secret@db:5432/results
+    depends_on: [db]
+    deploy:
+      resources:
+        limits: {cpus: "0.50", memory: 512M}
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: results
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits: {cpus: "1.00", memory: 1G}
+volumes:
+  dbdata:

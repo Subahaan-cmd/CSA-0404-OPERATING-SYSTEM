@@ -1,0 +1,11 @@
+# /etc/netplan/01-portal.yaml
+network:
+  version: 2
+  ethernets:
+    ens3:
+      addresses: [10.20.1.11/24]
+      routes:
+        - to: default
+          via: 10.20.1.1
+      nameservers:
+        addresses: [10.20.3.2, 8.8.8.8]

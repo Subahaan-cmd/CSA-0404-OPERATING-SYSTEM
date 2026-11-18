@@ -1,0 +1,27 @@
+# added to docker-compose.yml
+  lms:
+    image: moodlehq/moodle-php-apache:8.2      # or any sample web image
+    ports: ["8080:80"]
+    deploy:
+      resources:
+        limits: {cpus: "1.00", memory: 1G}
+
+$ docker compose up -d
+$ docker stats --no-stream
+NAME      CPU %   MEM USAGE / LIMIT
+portal    ...     ... / 512MiB          <- limit 0.5 CPU, 512 MB
+db        ...     ... / 1GiB            <- limit 1 CPU, 1 GB
+lms       ...     ... / 1GiB            <- limit 1 CPU, 1 GB      (three services, each with its own limit)
+
+# Kubernetes: one namespace per system, with a quota so that exams cannot starve the portal
+kubectl create namespace portal && kubectl create namespace lms
+kubectl apply -n portal -f deployment.yaml
+kubectl apply -n lms -f lms-deployment.yaml          # requests 500m/512Mi, limits 1 CPU/1Gi per pod
+cat <<EOF | kubectl apply -n portal -f -
+apiVersion: v1
+kind: ResourceQuota
+metadata: {name: portal-quota}
+spec:
+  hard: {requests.cpu: "8", requests.memory: 16Gi, limits.cpu: "16", limits.memory: 32Gi}
+EOF
+kubectl describe quota -n portal                     # shows used and hard values

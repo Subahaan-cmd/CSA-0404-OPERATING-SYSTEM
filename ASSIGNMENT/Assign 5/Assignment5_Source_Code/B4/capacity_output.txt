@@ -1,0 +1,15 @@
+sessions per second (average): 20.8
+requests per second: average 250, peak 1000
+
+RPS per container (measured)    containers (70% util)   with N+1 and 3 zones
+                            50                     29                     35
+                           100                     15                     18
+                           200                      8                     10
+                           400                      4                      5
+                           800                      2                      3
+
+VMs of 4 vCPU (4 containers each) for 200 RPS per container: 2
+
+own servers per year   :     8177 USD  (capex/5y 3600, power 1577, staff 3000)
+public cloud per year  :     8924 USD  (nodes 4468, k8s 876, db 3000, lb 240, burst 41, storage 300)
+hybrid per year        :     9617 USD  (own + backup bucket + standby database)

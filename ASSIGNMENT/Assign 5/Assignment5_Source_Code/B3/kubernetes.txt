@@ -1,0 +1,17 @@
+$ minikube start --driver=docker           # or: kind create cluster
+$ minikube addons enable metrics-server
+$ eval $(minikube docker-env) && docker build -t simats/result-portal:1.0 .     # image visible to minikube
+$ kubectl apply -f deployment.yaml
+$ kubectl get pods                         # expect: 3 pods, STATUS Running, READY 1/1
+$ kubectl describe pod <name> | grep -A4 -E "Requests|Limits"
+    Limits:   cpu: 500m, memory: 512Mi
+    Requests: cpu: 250m, memory: 256Mi
+# self-healing: delete a pod
+$ kubectl delete pod <name>
+$ kubectl get pods -w                      # a new pod appears within seconds; the total stays 3
+# scale manually and with the autoscaler
+$ kubectl scale deployment result-portal --replicas=6
+$ kubectl apply -f hpa.yaml                # Listing A5.1 (minReplicas 3, maxReplicas 50 or 6 on a laptop)
+$ kubectl run load --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://result-portal/health; done"
+$ kubectl get hpa -w                       # CPU rises above 60 percent: replicas increase to 6
+$ kubectl get pods                         # 6 pods Running

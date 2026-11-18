@@ -1,0 +1,9 @@
+Total requests : 7
+Errors (5xx)   : 2
+Top 3 paths:
+      4 /result
+      3 /login
+Top 3 clients:
+      4 10.0.0.5
+      2 10.0.0.7
+      1 10.0.0.9

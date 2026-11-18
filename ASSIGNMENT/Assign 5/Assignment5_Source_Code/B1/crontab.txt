@@ -1,0 +1,6 @@
+# crontab -e   (B1/crontab.txt)
+*/15 * * * *  /opt/portal/bin/disk_alert.sh 80   >> /var/log/portal/disk_alert.log 2>&1
+0    * * * *  /opt/portal/bin/logsummary.sh      >> /var/log/portal/summary.log 2>&1
+0    2 * * *  /opt/portal/bin/backup.sh          >> /var/log/portal/backup.log 2>&1
+# fields: minute hour day-of-month month day-of-week command
+# list the schedule:  crontab -l            remove all:  crontab -r
